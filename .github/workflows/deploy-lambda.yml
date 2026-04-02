@@ -5,16 +5,17 @@ on:
     branches:
       - main
     paths:
-      - 'nest-api/**'
+      - 'src/**'
+      - 'test/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - 'serverless.yml'
       - '.github/workflows/deploy-lambda.yml'
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: nest-api
 
     steps:
       - name: Checkout source
@@ -25,7 +26,7 @@ jobs:
         with:
           node-version: 20
           cache: yarn
-          cache-dependency-path: nest-api/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile

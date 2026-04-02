@@ -90,7 +90,7 @@ yarn deploy:lambda --stage dev --region ap-southeast-1
 
 Workflow file: `.github/workflows/deploy-lambda.yml`
 
-- Auto deploy on push to `main` when files under `nest-api/**` change.
+- Auto deploy on push to `main` when source/config files của project thay đổi.
 - Manual deploy via `workflow_dispatch`.
 - Deploy command in pipeline:
 
