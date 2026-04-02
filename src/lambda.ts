@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import serverlessExpress from '@vendia/serverless-express';
 import type { RequestListener } from 'http';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 type LambdaCallback = (...args: unknown[]) => void;
 type LambdaHandler = (
@@ -14,6 +15,16 @@ let cachedServer: LambdaHandler | undefined;
 
 async function bootstrap(): Promise<LambdaHandler> {
   const app = await NestFactory.create(AppModule);
+
+  // Apply global ValidationPipe
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
   await app.init();
 
   const expressApp = app.getHttpAdapter().getInstance() as RequestListener;
